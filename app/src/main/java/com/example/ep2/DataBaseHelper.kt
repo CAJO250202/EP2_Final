@@ -10,23 +10,20 @@ class DataBaseHelper (context: Context): SQLiteOpenHelper(
     DATABASE_NAME,
     null,
     DATABASE_VERSION){
-    //DATOS DE LA BASE DE DATOS
+    //BASE DE DATOS
     companion object{
-        //Informacion de la BD
         private const val DATABASE_NAME = "music.db"
         private const val  DATABASE_VERSION = 1
 
-        //Informacion de las tablas en la BD
+        //Tablas en la BD
         private const val TABLE_USUARIOS = "usuarios"
         private const val COL_ID = "id"
         private const val COL_NOMBRE = "nombre"
         private const val COL_CORREO = "correo"
         private const val COL_PASSWORD = "password"
-
-
     }
 
-    //METODO ONCREATE - PARA CREAR LA BASE DE DATOS
+    //METODO PARA CREAR LA BASE DE DATOS
     override fun onCreate(db: SQLiteDatabase?) {
         //crear tabla
         val crearTablaUsuario = """
@@ -40,14 +37,12 @@ class DataBaseHelper (context: Context): SQLiteOpenHelper(
         db?.execSQL(crearTablaUsuario)
     }
 
-
-    //METODO ONUPGRADE
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_USUARIOS")
         onCreate(db)
     }
 
-    //METODO PARA VALIDAR INICIO DE SESION
+    //METODO PARA INICIO DE SESION
     fun validarUsuario(correo: String, pass: String): Boolean {
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_USUARIOS WHERE $COL_CORREO = ? AND $COL_PASSWORD = ?"
